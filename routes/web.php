@@ -15,3 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [CountriesController::class, 'index']);
+Route::post('store', [CountriesController::class, 'store'])->name('store');
+Route::get('getCountries', [CountriesController::class, 'getCountries'])->name('getCountries');
