@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -11,10 +10,9 @@
         <link rel="stylesheet" href="{{ asset('assets/datatables/css/jquery.dataTables.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('assets/sweetalert2/sweetalert2.min.css') }}" />
         <link rel="stylesheet" href="{{ asset('assets/toastr/toastr.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}" />
     </head>
-
     <body>
-
         <div class="container">
             <div class="row mt-5 mb-5">
                 <div class="col-md-8 col-sm-12 mb-5">
@@ -27,11 +25,12 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Index</th>
                                     <th scope="col">Country name</th>
-                                    <th scope="col">Caoital city</th>
+                                    <th scope="col">Capital city</th>
+                                    <th></th>
+                                    <th></th>
                                   </tr>
                                 </thead>
                                 <tbody>
-
                                 </tbody>
                             </table>
                         </div>
@@ -49,7 +48,6 @@
                                 <input type="text" class="form-control" name="country_name" id="country_name" />
                                 <small class="form-text text-danger country_name_error"></small>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="capital_city">Capital city</label>
                                     <input type="text" class="form-control" name="capital_city" id="capital_city" />
@@ -61,11 +59,10 @@
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-
+        @include('components.edit-country')
         <script src="{{ asset('assets/scripts/jquery.min.js') }}"></script>
         <script src="{{ asset('assets/bootstrap-4.6.1-dist/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('assets/bootstrap-4.6.1-dist/js/bootstrap.bundle.min.js') }}"></script>
@@ -80,11 +77,11 @@
                 }
             });
 
-            const mainForm = $('#main');
-
+            const mainForm = $('#main'),
+                  updateModal = $('#update-modal'),
+                  updateForm = $('#update-form');
             mainForm.on('submit', function (e) {
                 e.preventDefault();
-
                 $.ajax({
                     url: mainForm.attr('action'),
                     method: mainForm.attr('method'),
@@ -126,7 +123,79 @@
                     { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'country_name', name: 'country_name' },
                     { data: 'capital_city', name: 'capital_city' },
+                    { data: 'action_update', name: 'action_update' },
+                    { data: 'action_delete', name: 'action_delete' },
                 ]
+            });
+
+            $(document).on('click', '.update-button', function (e) {
+                e.preventDefault();
+                const country_id = $(this).data('id');
+
+                updateModal.find('form')[0].reset();
+                updateModal.find('small.text-danger').text('');
+
+                $.post('<?= route("getCountryDetails") ?>', {country_id: country_id}, function (result) {
+                    if (result.status == 1) {
+                        updateModal.find('input[name="cid"]').val(result.details.id);
+                        updateModal.find('input[name="country_name"]').val(result.details.country_name);
+                        updateModal.find('input[name="capital_city"]').val(result.details.capital_city);
+
+                        // updateModal.modal('show');
+                    } else {
+                        toastr.error(result.message);
+                    }
+                }, 'json');
+            });
+
+            updateForm.on('submit', function (e) {
+                e.preventDefault();
+
+
+                $.ajax({
+                    url: updateForm.attr('action'),
+                    method: updateForm.attr('method'),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    data: new FormData(updateForm[0]),
+                    beforeSend: function () {
+                        updateForm.find('small.text-danger').text('');
+                    },
+                    success: function (response) {
+                        if (response.status == 1) {
+                            updateForm[0].reset();
+                            updateModal.modal('hide');
+                            $('#main-table').DataTable().ajax.reload(null, false);
+                            toastr.success(response.message);
+                        } else {
+                            $.each(response.errors, function (prefix, value) {
+                                updateForm.find('small.' + prefix + '_error').text(value[0]);
+                            });
+                        }
+                    }
+                });
+            });
+
+            $(document).on('click', '.delete-button', function (e) {
+                e.preventDefault();
+                const country_id = $(this).data('id');
+                $.ajax({
+                    url: '{{ route("delete") }}',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        country_id: country_id
+                    },
+                    success: function (response) {
+                        if (response.status == 1) {
+                            $('#main-table').DataTable().ajax.reload(null, false);
+                            toastr.success(response.message);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                });
             })
         </script>
     </body>
