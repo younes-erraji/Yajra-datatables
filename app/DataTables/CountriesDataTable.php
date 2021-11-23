@@ -54,14 +54,20 @@ class CountriesDataTable extends DataTable
                     ->buttons(
                         // Button::make('create'),
 
-                        Button::make('csv'),
-                        Button::make('excel'),
-
-                        // Button::make('export'),
-                        // Button::make('print'),
-                        // Button::make('reset'),
-                        // Button::make('reload')
-                    );
+                        Button::make('export'),
+                        Button::make('print'),
+                        Button::make('reset'),
+                        Button::make('reload')
+                    )
+                    ->parameters([
+                        'lengthMenu' => [
+                            [ 10, 25, 50, -1 ],
+                            [ '10', '25', '50', 'All' ]
+                        ],
+                        'responsive' => true,
+                        // 'dom' => 'Blfrtip',
+                        // 'buttons' => ['csv', 'excel', 'pdf', 'print', 'reset', 'reload'],
+                    ]);
     }
 
     /**

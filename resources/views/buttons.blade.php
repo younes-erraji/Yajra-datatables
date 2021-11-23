@@ -4,6 +4,12 @@
 <link rel="stylesheet" href="{{ asset('assets/toastr/toastr.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/css/font-awesome.min.css') }}" />
 <link rel="stylesheet" href="{{ asset('assets/Buttons-2.0.1/css/buttons.dataTables.min.css') }}" />
+<style>
+    .dt-buttons {
+        width: 100%;
+        margin-bottom: 7px
+    }
+</style>
 @endsection
 @section('content')
 <div class="container">
@@ -35,13 +41,12 @@
         </div>
     </div>
 </div>
-@include('components.edit-country')
 @endsection
 @section('scripts')
 <script src="{{ asset('assets/datatables/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('assets/toastr/toastr.min.js') }}"></script>
-<script src="{{ asset('assets/Buttons-2.0.1/js/buttns.dataTables.min.js') }}"></script>
-<script src="{{ asset('vendor/datatables/print.blade.php') }}"></script>
+<script src="{{ asset('assets/Buttons-2.0.1/js/buttons.dataTables.min.js') }}"></script>
+<script src="{{ asset('vendor/datatables/buttons.server-side.js') }}"></script>
 {!! $dataTable->scripts() !!}
 @endsection
