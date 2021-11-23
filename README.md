@@ -20,6 +20,7 @@ This package is a complete installer of [Laravel DataTables](https://github.com/
 
 ## Installation
 `composer require yajra/laravel-datatables:^1.5`
+<br />
 `composer require yajra/laravel-datatables-buttons`
 
 #### Service Providers
@@ -34,6 +35,8 @@ Yajra\DataTables\FractalServiceProvider::class
 
 #### Configuration and Assets (Optional)
 `$ php artisan vendor:publish`
+<br />
+`php artisan vendor:publish --tag=datatables-buttons`
 
 And that's it! Start building out some awesome DataTables!
 
