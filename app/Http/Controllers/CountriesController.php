@@ -92,4 +92,8 @@ class CountriesController extends Controller
             return response()->json(['status' => 0, 'message' => 'This country does not exists!']);
         }
     }
+
+    function buttons() {
+        return view('buttons');
+    }
 }

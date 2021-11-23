@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [CountriesController::class, 'index']);
+Route::get('/buttons', [CountriesController::class, 'buttons']);
 Route::post('store', [CountriesController::class, 'store'])->name('store');
 Route::post('delete', [CountriesController::class, 'delete'])->name('delete');
 Route::post('update', [CountriesController::class, 'update'])->name('update');

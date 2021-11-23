@@ -12,5 +12,5 @@ class Country extends Model
         'country_name', 'capital_city'
     ];
 
-    public $timestamps = false;
+    public $timestamps = true;
 }
