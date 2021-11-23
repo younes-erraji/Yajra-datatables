@@ -13,4 +13,8 @@ class Country extends Model
     ];
 
     public $timestamps = true;
+    protected static function newFactory()
+    {
+        return \Database\Factories\CountriesFactory::new();
+    }
 }
