@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use DataTables;
+use App\DataTables\CountriesDataTable;
 class CountriesController extends Controller
 {
     function index() {
@@ -93,7 +94,8 @@ class CountriesController extends Controller
         }
     }
 
-    function buttons() {
-        return view('buttons');
+    function buttons(CountriesDataTable $countriesDataTable) {
+        // return view('buttons');
+        return $countriesDataTable->render('buttons');
     }
 }
