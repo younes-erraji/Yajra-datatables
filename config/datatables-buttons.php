@@ -37,12 +37,12 @@ return [
      * Snappy package: barryvdh/laravel-snappy
      * Excel package: maatwebsite/excel
      */
-    'pdf_generator' => 'snappy',
+    'pdf_generator' => 'excel',
 
     /*
      * Snappy PDF options.
      */
-    'snappy'        => [
+    'excel'        => [
         'options'     => [
             'no-outline'    => true,
             'margin-left'   => '0',
